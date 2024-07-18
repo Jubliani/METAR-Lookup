@@ -126,10 +126,10 @@ function DecodeWindStandardNotation(raw) {
 
 function CheckForGust(raw) {
     if (raw.match(/G\d+KT/)) {
-        matched = raw.match(/G\d+KT/)[0];
+        const matched = raw.match(/G\d+KT/)[0];
         decodedText += `gusting to ${matched.substring(1, matched.length - 2)} knots. `;
     } else if (raw.match(/G\d+MPS/)) {
-        matched = raw.match(/G\d+MPS/);
+        const matched = raw.match(/G\d+MPS/);
         decodedText += `gusting to ${matched.substring(1, matched.length - 3)} meters/sec. `;
     } else if (raw.match(/KT/)){ 
         decodedText += "knots. "; 
@@ -153,7 +153,8 @@ function DecodeVisibility(raw) {
 function DecodeVisibilityNoMeters(raw) {
     if (raw.endsWith("SM")) { 
         const greaterThan = (raw[0] == "P" || raw[0] == "+") ? "greater than " : "";
-        decodedText += `Visibility is ${greaterThan}${raw.slice(1, -2)} statute miles. `;
+        if (greaterThan.length > 0) { raw = raw.slice(1); }
+        decodedText += `Visibility is ${greaterThan}${raw.slice(0, -2)} statute miles. `;
         return true;
     }
     return false;
@@ -318,4 +319,8 @@ function DecodePrevisions(raw) {
         return true;
     }
     return false;
+}
+
+function DecodeDirections(raw) {
+
 }
