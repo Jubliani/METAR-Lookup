@@ -10,4 +10,4 @@ NOTE: decodings may not fully translate reports. METAR/TAF reports can include a
 </p></b>
 
 ## Installation
-Download the repo and load it in the upnacked extension into Chrome. <br>
+Download the repo and load in the upnacked extension into Chrome. <br>
