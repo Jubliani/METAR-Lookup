@@ -60,7 +60,7 @@ const parseFunctions = [
 
 
 function DecodeMETAR(rawArray, airportName) {
-    decodedText = `<br><br>METAR report for ${rawArray[0]} ${airportName} created at ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.<br><br>`;
+    decodedText = `<br><br>METAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.<br><br>`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -74,7 +74,7 @@ function DecodeMETAR(rawArray, airportName) {
 
 function DecodeTAF(rawArray, airportName) {
     if (rawArray[0] == "TAF") { rawArray = rawArray.slice(1); }
-    decodedText += `<br><br>TAF report for ${rawArray[0]} ${airportName} created at ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.<br><br>`;
+    decodedText += `<br><br>TAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.<br><br>`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
