@@ -25,6 +25,8 @@ async function GetReport(whichLink) {
             DecodeMETAR(data[0].rawOb.split(' '), data[0].name);
         } else if (decodeReports.checked && whichLink == tafLink) {
             DecodeTAF(data[0].rawTAF.split(' '), data[0].name);
+        } else {
+            decodedText = ''
         }
         return whichLink == metarLink ? data[0].rawOb : data[0].rawTAF;
     } catch (error) {
