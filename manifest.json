@@ -3,7 +3,10 @@
     "name": "METAR lookup",
     "description": "A tool to look up weather at airports",
     "version": "1.0",
-    "host_permissions": ["https://aviationweather.gov/api/data/metar*"],
+    "host_permissions": [
+      "http://*",
+      "https://*"
+    ],
     "action": {
       "default_popup": "index.html",
       "default_icon": "icon.png"
