@@ -1,4 +1,4 @@
-import { GetMonthAsString, GetTimeRange } from "./decoderUtils.js";
+import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange } from "./decoderUtils.js";
 
 const airportCode = document.getElementById("inputText")
 const TAFReq = document.getElementById("TAFReq")
@@ -60,7 +60,7 @@ const parseFunctions = [
 
 
 function DecodeMETAR(rawArray, airportName) {
-    decodedText = `<br><br>METAR report for ${rawArray[0]} ${airportName} created at ${rawArray[1]}.<br><br>`;
+    decodedText = `<br><br>METAR report for ${rawArray[0]} ${airportName} created at ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.<br><br>`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -74,7 +74,7 @@ function DecodeMETAR(rawArray, airportName) {
 
 function DecodeTAF(rawArray, airportName) {
     if (rawArray[0] == "TAF") { rawArray = rawArray.slice(1); }
-    decodedText += `<br><br>TAF report for ${rawArray[0]} ${airportName} created at ${rawArray[1]}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.<br><br>`;
+    decodedText += `<br><br>TAF report for ${rawArray[0]} ${airportName} created at ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.<br><br>`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -307,13 +307,13 @@ function DecodePrevisions(raw) {
         decodedText += "Temporarily ";
         return true;
     } else if (raw.startsWith("FM")) {
-        decodedText += `From ${GetMonthAsString()} ${raw.slice(2,4)} at ${raw.slice(4)}Z `;
+        decodedText += `From ${DecodeSixDigitsToDate(raw.slice(2))} `;
         return true;
     } else if (raw.startsWith("AT")) {
-        decodedText += `At ${GetMonthAsString()} ${raw.slice(2,4)} at ${raw.slice(4)}Z: `;
+        decodedText += `At ${DecodeSixDigitsToDate(raw.slice(2))}: `;
         return true;
     } else if (raw.startsWith("TL")) {
-        decodedText += `Until ${GetMonthAsString()} ${raw.slice(2,4)} at ${raw.slice(4)}Z: `;
+        decodedText += `Until ${DecodeSixDigitsToDate(raw.slice(2))}: `;
         return true;
     } else if (raw.startsWith("PROB")) {
         decodedText += `With a probability of ${raw.slice(4)}% `;
