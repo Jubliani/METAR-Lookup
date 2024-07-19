@@ -51,7 +51,8 @@ const parseFunctions = [
     DecodeTempDewPoint,
     DecodeAltimeter,
     DecodeRemarks,
-    DecodePrevisions
+    DecodePrevisions,
+    DecodeSingleChars
 ];
 
 
@@ -323,4 +324,27 @@ function DecodePrevisions(raw) {
 
 function DecodeDirections(raw) {
 
+}
+
+function DecodeSingleChars(raw) {
+    return [DecodeSingleNumber, DecodeVIS].some(function(func) {
+        return func(raw);
+    });
+}
+
+//because of this METAR report: 'VIS W 2'
+function DecodeSingleNumber(raw) {
+    if (raw.match(/^\d{1}$/)) {
+        decodedText += `is ${raw} statute miles. `;
+        return true;
+    }
+    return false;
+}
+
+function DecodeVIS(raw) {
+    if (raw == "VIS") {
+        decodedText += `Visibility in the `
+        return true;
+    }
+    return false;
 }
