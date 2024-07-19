@@ -86,7 +86,9 @@ function DecodeTAF(rawArray, airportName) {
 function DecodeAUTO(raw) {
     if (raw == "AUTO") {
         decodedText += "Fully automated report. ";
+        return true;
     }
+    return false;
 }
 
 
