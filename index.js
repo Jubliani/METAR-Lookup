@@ -18,7 +18,8 @@ async function GetReport(whichLink) {
         }
         const data = await response.json();
         if (Object.keys(data).length == 0) {
-            throw new Error('Invalid code');
+            decodedText = '';
+            return 'Error: code not found.';
         }
         if (decodeReports.checked && whichLink == metarLink) {
             console.log("WKLDFJLSKDJF");
@@ -26,7 +27,7 @@ async function GetReport(whichLink) {
         } else if (decodeReports.checked && whichLink == tafLink) {
             DecodeTAF(data[0].rawTAF.split(' '), data[0].name);
         } else {
-            decodedText = ''
+            decodedText = '';
         }
         return whichLink == metarLink ? data[0].rawOb : data[0].rawTAF;
     } catch (error) {
