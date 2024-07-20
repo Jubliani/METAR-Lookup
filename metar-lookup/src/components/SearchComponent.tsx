@@ -1,10 +1,12 @@
+import * as index from './index.ts'; 
+
 function SearchComponent() {
     return (
         <>
             <div className="input-group mb-3" style={{width: "50%"}}>
                 <input type="text" className="form-control" id="inputText" placeholder="Enter ICAO code" aria-label="Enter ICAO code" maxLength={4} aria-describedby="basic-addon2"/>
                 <div className="input-group-append">
-                    <button className="btn btn-outline-secondary btn-light" id="reqButton" type="button">Search</button>
+                    <button className="btn btn-outline-secondary btn-light" id="reqButton" type="button" onClick={() => utils.SendRequest()}>Search</button>
                 </div>
             </div>
             <div className="form-check form-check-inline">

@@ -1,11 +1,13 @@
 import SearchComponent from "./components/SearchComponent.tsx";
+import OutputComponent from "./components/OutputComponent.tsx";
 
 function App() {
 
   return (
     <>
       <h1>METAR lookup</h1>
-      <div><SearchComponent /></div>
+      <SearchComponent />
+      <OutputComponent />
       <p id="report" />
     </>
   )
