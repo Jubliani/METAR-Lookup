@@ -3,7 +3,7 @@ import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange } from "./decoder
 const airportCode = document.getElementById("inputText")
 const TAFReq = document.getElementById("TAFReq")
 const reqButton = document.getElementById("reqButton")
-const decodeReports = document.getElementById("decodeReports")
+const decodeReports = document.getElementById("DecodeReq")
 const output = document.getElementById("report")
 
 const metarLink = 'https://aviationweather.gov/api/data/metar?'
