@@ -1,7 +1,12 @@
-function SearchBar() {
+function SearchComponent() {
     return (
         <>
-            <input className="form-control form-control-lg" type="text" maxLength={4} placeholder="Enter ICAO code" />
+            <div className="input-group mb-3" style={{width: "50%"}}>
+                <input type="text" className="form-control" id="inputText" placeholder="Enter ICAO code" aria-label="Enter ICAO code" maxLength={4} aria-describedby="basic-addon2"/>
+                <div className="input-group-append">
+                    <button className="btn btn-outline-secondary btn-light" id="reqButton" type="button">Search</button>
+                </div>
+            </div>
             <div className="form-check form-check-inline">
                 <input className="form-check-input" type="checkbox" value="" id="TAFReq" />
                 <label className="form-check-label" htmlFor="TAFReq">Include TAF</label>
@@ -14,4 +19,4 @@ function SearchBar() {
     );
 }
 
-export default SearchBar;
+export default SearchComponent;
