@@ -3,7 +3,7 @@ import { Decoder } from "./DecoderUtils";
 export class VisibilityDecoder extends Decoder {
 
     Decode(raw: string) {
-        return [this.DecodeVisibilityNoMeters, this.DecodeVisibilityMeters].some(function(func) {
+        return [this.DecodeVisibilityNoMeters, this.DecodeVisibilityMeters, this.DecodeSpecialVis].some(function(func) {
             return func(raw);
         });
     }
@@ -30,26 +30,24 @@ export class VisibilityDecoder extends Decoder {
         return [true, this.decodedText];
     }
 
-    // function DecodeSingleChars(raw: string) {
-    //     return [DecodeSingleNumber, DecodeVIS].some(function(func) {
-    //         return func(raw);
-    //     });
-    // }
+    //because of this METAR report: 'VIS W 2'
+    DecodeSpecialVis(raw: string) {
+        return [this.DecodeSingleNumber, this.DecodeVIS].some(function(func) {
+            return func(raw);
+        });
+    }
     
-    // //because of this METAR report: 'VIS W 2'
-    // function DecodeSingleNumber(raw: string) {
-    //     if (raw.match(/^\d{1}$/)) {
-    //         decodedText += `is ${raw} statute miles. `;
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    DecodeSingleNumber(raw: string) {
+        if (raw.match(/^\d{1}$/)) {
+            return [true, this.decodedText + `is ${raw} statute miles. `];
+        }
+        return [false];
+    }
     
-    // function DecodeVIS(raw: string) {
-    //     if (raw == "VIS") {
-    //         decodedText += `Visibility in the `
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    DecodeVIS(raw: string) {
+        if (raw == "VIS") {
+            return [true, this.decodedText + 'Visibility in the '];
+        }
+        return [false];
+    }
 }
