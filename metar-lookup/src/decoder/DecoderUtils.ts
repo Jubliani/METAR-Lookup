@@ -1,3 +1,14 @@
+export abstract class Decoder {
+    decodedText: string
+
+    constructor(decodedText: string) {
+        this.decodedText = decodedText;
+    }
+
+    abstract Decode(raw: string): void;
+
+}
+
 export function GetMonthAsString() {
     const months = ["January","February","March","April","May","June",
         "July","August","September","October","November","December"];
