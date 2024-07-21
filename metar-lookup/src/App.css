@@ -1,0 +1,6 @@
+body {
+    min-width:400px;
+}
+#report {
+    white-space: pre-line;
+}

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+interface OutputComponentProps {
+    report: string;
+}
 
-function OutputComponent() {
-    const [reportText, setText] = useState("");
+const OutputComponent: React.FC<OutputComponentProps> = ({ report }) => {
     return (
         <>
-        <p>{reportText}</p>
+        <p id="report">{report}</p>
         </>
     );
 }

@@ -1,11 +1,5 @@
 import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange } from "./decoderUtils.ts";
 
-const airportCode = document.getElementById("inputText")
-const TAFReq = document.getElementById("TAFReq")
-const reqButton = document.getElementById("reqButton")
-const decodeReports = document.getElementById("DecodeReq")
-const output = document.getElementById("report")
-
 const metarLink = 'https://aviationweather.gov/api/data/metar?'
 const tafLink = 'https://aviationweather.gov/api/data/taf?'
 
@@ -41,21 +35,11 @@ export async function SendRequest(airportCode: string, TAFReq: boolean, decodeRe
     }
     let outputText = await GetReport(airportCode, metarLink, decodeReports)
     if (TAFReq) {
-        outputText += '<br><br>' + await GetReport(airportCode, tafLink, decodeReports);
+        outputText += '\n\n' + await GetReport(airportCode, tafLink, decodeReports);
     }
+    console.log(outputText);
     return outputText + decodedText;
 }
-
-// reqButton.addEventListener('click', async function() {
-//     if (!airportCode.value) {
-//         return
-//     }
-//     let outputText = await GetReport(metarLink)
-//     if (TAFReq.checked) {
-//         outputText += '<br><br>' + await GetReport(tafLink);
-//     }
-//     output.innerHTML = outputText + decodedText;
-// });
 
 const parseFunctions = [
     DecodeAUTO,
@@ -71,7 +55,7 @@ const parseFunctions = [
 
 
 function DecodeMETAR(rawArray: Array<string>, airportName: string) {
-    decodedText = `<br><br>METAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.<br><br>`;
+    decodedText = `\n\nMETAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.\n\n`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -85,7 +69,7 @@ function DecodeMETAR(rawArray: Array<string>, airportName: string) {
 
 function DecodeTAF(rawArray: Array<string>, airportName: string) {
     if (rawArray[0] == "TAF") { rawArray = rawArray.slice(1); }
-    decodedText += `<br><br>TAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.<br><br>`;
+    decodedText += `\n\nTAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.\n\n`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -303,7 +287,7 @@ function DecodeTypeOfPressure(raw: string) {
 
 function DecodeRemarks(raw: string) {
     if (raw == "RMK") {
-        decodedText += '<br><br>Remarks: <br>';
+        decodedText += '\n\nRemarks: \n';
         return true;
     }
     return false;
@@ -340,9 +324,9 @@ function DecodePrevisions(raw: string) {
     return false;
 }
 
-function DecodeDirections(raw: string) {
-
-}
+// function DecodeDirections(raw: string) {
+    
+// }
 
 function DecodeSingleChars(raw: string) {
     return [DecodeSingleNumber, DecodeVIS].some(function(func) {
