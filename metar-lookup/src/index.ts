@@ -1,18 +1,12 @@
-import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange } from "./decoderUtils.js";
-
-const airportCode = document.getElementById("inputText")
-const TAFReq = document.getElementById("TAFReq")
-const reqButton = document.getElementById("reqButton")
-const decodeReports = document.getElementById("decodeReports")
-const output = document.getElementById("report")
+import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange } from "./decoderUtils.ts";
 
 const metarLink = 'https://aviationweather.gov/api/data/metar?'
 const tafLink = 'https://aviationweather.gov/api/data/taf?'
 
 var decodedText = "";
-async function GetReport(whichLink) {
+async function GetReport(airportCode: string, whichLink: string, decodeReports: boolean) {
     try {
-        const response = await fetch(`${whichLink}ids=${airportCode.value}&format=json`);
+        const response = await fetch(`${whichLink}ids=${airportCode}&format=json`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -21,10 +15,10 @@ async function GetReport(whichLink) {
             decodedText = '';
             return 'Error: code not found.';
         }
-        if (decodeReports.checked && whichLink == metarLink) {
+        if (decodeReports && whichLink == metarLink) {
             console.log("WKLDFJLSKDJF");
             DecodeMETAR(data[0].rawOb.split(' '), data[0].name);
-        } else if (decodeReports.checked && whichLink == tafLink) {
+        } else if (decodeReports && whichLink == tafLink) {
             DecodeTAF(data[0].rawTAF.split(' '), data[0].name);
         } else {
             decodedText = '';
@@ -35,16 +29,17 @@ async function GetReport(whichLink) {
     }
 }
 
-reqButton.addEventListener('click', async function() {
-    if (!airportCode.value) {
+export async function SendRequest(airportCode: string, TAFReq: boolean, decodeReports: boolean) {
+    if (!airportCode) {
         return
     }
-    let outputText = await GetReport(metarLink)
-    if (TAFReq.checked) {
-        outputText += '<br><br>' + await GetReport(tafLink);
+    let outputText = await GetReport(airportCode, metarLink, decodeReports)
+    if (TAFReq) {
+        outputText += '\n\n' + await GetReport(airportCode, tafLink, decodeReports);
     }
-    output.innerHTML = outputText + decodedText;
-});
+    console.log(outputText);
+    return outputText + decodedText;
+}
 
 const parseFunctions = [
     DecodeAUTO,
@@ -59,8 +54,8 @@ const parseFunctions = [
 ];
 
 
-function DecodeMETAR(rawArray, airportName) {
-    decodedText = `<br><br>METAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.<br><br>`;
+function DecodeMETAR(rawArray: Array<string>, airportName: string) {
+    decodedText = `\n\nMETAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.\n\n`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -72,9 +67,9 @@ function DecodeMETAR(rawArray, airportName) {
     });
 }
 
-function DecodeTAF(rawArray, airportName) {
+function DecodeTAF(rawArray: Array<string>, airportName: string) {
     if (rawArray[0] == "TAF") { rawArray = rawArray.slice(1); }
-    decodedText += `<br><br>TAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.<br><br>`;
+    decodedText += `\n\nTAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.\n\n`;
     rawArray = rawArray.slice(2);
     rawArray.forEach((element) => {
         const foundMatch = parseFunctions.some(function(func) {
@@ -86,7 +81,7 @@ function DecodeTAF(rawArray, airportName) {
     });
 }
 
-function DecodeAUTO(raw) {
+function DecodeAUTO(raw: string) {
     if (raw == "AUTO") {
         decodedText += "Fully automated report. ";
         return true;
@@ -95,7 +90,7 @@ function DecodeAUTO(raw) {
 }
 
 
-function DecodeWind(raw) {
+function DecodeWind(raw: string) {
     const matchedWinds = raw.match(/^\d{5}(\d+)?[a-zA-Z]+/);
     if (matchedWinds) { 
         DecodeWindStandardNotation(raw);
@@ -113,14 +108,17 @@ function DecodeWind(raw) {
     return false;
 }
 
-function IsolateWindSpeed(speedAndMore) {
+function IsolateWindSpeed(speedAndMore: string) {
     const match = speedAndMore.match(/(\d+)(.*)$/);
+    if (!match) {
+        return { speed:'', rest:'' };
+    }
     const speed = match[1];
     const rest = match[2];
     return { speed, rest };
 }
 
-function DecodeWindStandardNotation(raw) {
+function DecodeWindStandardNotation(raw: string) {
     if (raw.startsWith("00000")) {
         decodedText += "Calm winds. ";
         return;
@@ -130,33 +128,32 @@ function DecodeWindStandardNotation(raw) {
     CheckForGust(rest);
 }
 
-function CheckForGust(raw) {
-    if (raw.match(/G\d+KT/)) {
-        const matched = raw.match(/G\d+KT/)[0];
-        decodedText += `gusting to ${matched.substring(1, matched.length - 2)} knots. `;
-    } else if (raw.match(/G\d+MPS/)) {
-        const matched = raw.match(/G\d+MPS/);
-        decodedText += `gusting to ${matched.substring(1, matched.length - 3)} meters/sec. `;
-    } else if (raw.match(/KT/)){ 
+function CheckForGust(raw: string) {
+    const [matched, matched1, matched2, matched3] = [raw.match(/G\d+KT/), raw.match(/G\d+MPS/), raw.match(/KT/), raw.match(/MPS/)]
+    if (matched) {
+        decodedText += `gusting to ${matched[0].substring(1, matched.length - 2)} knots. `;
+    } else if (matched1) {
+        decodedText += `gusting to ${matched1[0].substring(1, matched1[0].length - 3)} meters/sec. `;
+    } else if (matched2){ 
         decodedText += "knots. "; 
-    } else if (raw.match(/MPS/)) {
+    } else if (matched3) {
         decodedText += "meters/sec. ";
     }
 }
 
-function DecodeWindVRB(raw) {
+function DecodeWindVRB(raw: string) {
     const {speed, rest} = IsolateWindSpeed(raw);
     decodedText += `Wind variable at ${speed.replace(/^0+/, '')} `;
     CheckForGust(rest);
 }
 
-function DecodeVisibility(raw) {
+function DecodeVisibility(raw: string) {
     return [DecodeVisibilityNoMeters, DecodeVisibilityMeters].some(function(func) {
         return func(raw);
     });
 }
 
-function DecodeVisibilityNoMeters(raw) {
+function DecodeVisibilityNoMeters(raw: string) {
     if (raw.endsWith("SM")) { 
         const greaterThan = (raw[0] == "P" || raw[0] == "+") ? "greater than " : "";
         if (greaterThan.length > 0) { raw = raw.slice(1); }
@@ -165,20 +162,20 @@ function DecodeVisibilityNoMeters(raw) {
     }
     return false;
 }
-function DecodeVisibilityMeters(raw) {
+function DecodeVisibilityMeters(raw: string) {
     const matchedVisM = raw.match(/^\d{4}$/);
-    if (matchedVisM) { 
-        if (matchedVisM[0] == 9999) {
-            decodedText += "Visibility is 10KM or greater. ";
-        } else {
-            decodedText += `Visibility is ${matchedVisM[0]} meters. `;
-        }
-        return true;
+    if (!matchedVisM) {
+        return false
+    } 
+    if (matchedVisM[0] == "9999") {
+        decodedText += "Visibility is 10KM or greater. ";
+    } else {
+        decodedText += `Visibility is ${matchedVisM[0]} meters. `;
     }
-    return false;
+    return true;
 }
 
-function DecodeClouds(raw) {
+function DecodeClouds(raw: string) {
     const matchedCloudStandard = raw.match(/^[A-Z]{3}\d{3}/);
     if (matchedCloudStandard) {
         DetermineIfCloudOrSLP(raw);
@@ -202,7 +199,7 @@ function DecodeClouds(raw) {
     }
 }
 
-function DetermineIfCloudOrSLP(raw) {
+function DetermineIfCloudOrSLP(raw: string) {
     if (raw.startsWith("SLP")) {
         DecodeSLP(raw.slice(3));
     } else {
@@ -210,17 +207,17 @@ function DetermineIfCloudOrSLP(raw) {
     }
 }
 
-function DecodeSLP(pressure) {
+function DecodeSLP(pressure: string) {
     decodedText += `Sea level pressure is ${parseInt(pressure) / 10 + 1000} hPa. `;
 }
 
-function DecodeCloudsStandard(cloudType, specialCloud, cloudAlt) {
+function DecodeCloudsStandard(cloudType: string, specialCloud: string, cloudAlt: string) {
     DecodeCloudType(cloudType);
     DecodeSpecialCloud(specialCloud);
     DecodeCloudAlt(cloudAlt);
 }
 
-function DecodeCloudType(cloudType) {
+function DecodeCloudType(cloudType: string) {
     switch (cloudType) {
         case "FEW":
             decodedText += "Few ";
@@ -240,7 +237,7 @@ function DecodeCloudType(cloudType) {
     }
 }
 
-function DecodeSpecialCloud(specialCloud) {
+function DecodeSpecialCloud(specialCloud: string) {
     switch (specialCloud) {
         case "TCU":
             decodedText += "towering cumulus clouds ";
@@ -256,11 +253,11 @@ function DecodeSpecialCloud(specialCloud) {
     }
 }
 
-function DecodeCloudAlt(cloudAlt) {
+function DecodeCloudAlt(cloudAlt: string) {
     decodedText += `at ${String(parseInt(cloudAlt) * 100)} feet AGL. `;
 }
 
-function DecodeTempDewPoint(raw) {
+function DecodeTempDewPoint(raw: string) {
     const matchedTempDew = raw.match(/^\d{2}\/\d{2}/);
     if (matchedTempDew) {
         decodedText += `Temperature ${raw.slice(0,2)}\u00B0C, dew point ${raw.slice(3)}\u00B0C. `;
@@ -269,7 +266,7 @@ function DecodeTempDewPoint(raw) {
     return false;
 }
 
-function DecodeAltimeter(raw) {
+function DecodeAltimeter(raw: string) {
     const matchedAltimeter = raw.match(/^(Q|A)\d{4}/);
     if (matchedAltimeter) {
         DecodeTypeOfPressure(raw);
@@ -278,7 +275,7 @@ function DecodeAltimeter(raw) {
     return false;
 }
 
-function DecodeTypeOfPressure(raw) {
+function DecodeTypeOfPressure(raw: string) {
     if (raw.startsWith("Q")) {
         decodedText += `QNH ${raw.slice(1)} hPa. `;
     } else if (raw.startsWith("A")) {
@@ -288,15 +285,15 @@ function DecodeTypeOfPressure(raw) {
     }
 }
 
-function DecodeRemarks(raw) {
+function DecodeRemarks(raw: string) {
     if (raw == "RMK") {
-        decodedText += '<br><br>Remarks: <br>';
+        decodedText += '\n\nRemarks: \n';
         return true;
     }
     return false;
 }
 
-function DecodePrevisions(raw) {
+function DecodePrevisions(raw: string) {
     if (raw == "NOSIG") {
         decodedText += "No significant weather change expected in the next 2 hours. ";
         return true;
@@ -327,18 +324,18 @@ function DecodePrevisions(raw) {
     return false;
 }
 
-function DecodeDirections(raw) {
+// function DecodeDirections(raw: string) {
+    
+// }
 
-}
-
-function DecodeSingleChars(raw) {
+function DecodeSingleChars(raw: string) {
     return [DecodeSingleNumber, DecodeVIS].some(function(func) {
         return func(raw);
     });
 }
 
 //because of this METAR report: 'VIS W 2'
-function DecodeSingleNumber(raw) {
+function DecodeSingleNumber(raw: string) {
     if (raw.match(/^\d{1}$/)) {
         decodedText += `is ${raw} statute miles. `;
         return true;
@@ -346,7 +343,7 @@ function DecodeSingleNumber(raw) {
     return false;
 }
 
-function DecodeVIS(raw) {
+function DecodeVIS(raw: string) {
     if (raw == "VIS") {
         decodedText += `Visibility in the `
         return true;
