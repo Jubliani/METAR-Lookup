@@ -1,11 +1,9 @@
-import { Decoder } from "./DecoderUtils";
+import { Decoder, LoopThroughFunctions } from "./DecoderUtils";
 
 export class SingleWordDecoder extends Decoder {
 
     Decode(raw: string) {
-        return [this.DecodeAUTO, this.DecodeRemarks].some(function(func) {
-            return func(raw);
-        });
+        return LoopThroughFunctions([this.DecodeAUTO, this.DecodeRemarks], raw);
     }
     DecodeAUTO(raw: string) {
         if (raw == "AUTO") {

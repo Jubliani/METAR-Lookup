@@ -1,4 +1,4 @@
-import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange } from "./decoder/DecoderUtils.ts";
+import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange, Decode } from "./decoder/DecoderUtils.ts";
 
 const metarLink = 'https://aviationweather.gov/api/data/metar?'
 const tafLink = 'https://aviationweather.gov/api/data/taf?'
@@ -41,42 +41,14 @@ export async function SendRequest(airportCode: string, TAFReq: boolean, decodeRe
     return outputText + decodedText;
 }
 
-const parseFunctions = [
-    DecodeAUTO,
-    DecodeWind, 
-    DecodeVisibility, 
-    DecodeClouds,
-    DecodeTempDewPoint,
-    DecodeAltimeter,
-    DecodeRemarks,
-    DecodePrevisions,
-    DecodeSingleChars
-];
-
 
 function DecodeMETAR(rawArray: Array<string>, airportName: string) {
     decodedText = `\n\nMETAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.\n\n`;
-    rawArray = rawArray.slice(2);
-    rawArray.forEach((element) => {
-        const foundMatch = parseFunctions.some(function(func) {
-            return func(element);
-        });
-        if (!foundMatch) {
-            decodedText += `${element} NOT DECODED. `;
-        }
-    });
+    decodedText += Decode(rawArray.slice(2))
 }
 
 function DecodeTAF(rawArray: Array<string>, airportName: string) {
     if (rawArray[0] == "TAF") { rawArray = rawArray.slice(1); }
     decodedText += `\n\nTAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.\n\n`;
-    rawArray = rawArray.slice(2);
-    rawArray.forEach((element) => {
-        const foundMatch = parseFunctions.some(function(func) {
-            return func(element);
-        });
-        if (!foundMatch) {
-            decodedText += `${element} NOT DECODED. `;
-        }
-    });
+    decodedText += Decode(rawArray.slice(2))
 }

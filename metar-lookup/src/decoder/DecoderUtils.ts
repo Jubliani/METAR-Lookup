@@ -1,3 +1,12 @@
+import { WindDecoder } from "./WindDecoder.ts";
+import { VisibilityDecoder } from "./VisibilityDecoder.ts";
+import { CloudDecoder } from "./CloudDecoder.ts";
+import { TemperatureDecoder } from "./TemperatureDecoder.ts";
+import { PressureDecoder } from "./PressureDecoder.ts";
+import { SingleWordDecoder } from "./SingleWordDecoder.ts";
+import { PrevisionDecoder } from "./PrevisionDecoder.ts";
+
+
 export abstract class Decoder {
     decodedText: string
 
@@ -5,8 +14,40 @@ export abstract class Decoder {
         this.decodedText = decodedText;
     }
 
-    abstract Decode(raw: string): void;
+    abstract Decode(raw: string): Array<string|boolean>;
 
+}
+
+
+export function Decode(rawArray: Array<string>, text: string) {
+    let decodedText = text;
+    const parseClasses = [
+        WindDecoder,
+        VisibilityDecoder, 
+        CloudDecoder, 
+        TemperatureDecoder,
+        PressureDecoder,
+        SingleWordDecoder,
+        PrevisionDecoder,
+    ];
+    rawArray.forEach((element) => {
+        for (const decoderClass of parseClasses) {
+            const decoded = new decoderClass(decodedText).Decode(element);
+            if (decoded[0]) {
+                decodedText += decoded[1];
+                break;
+            }
+            decodedText += `${element} NOT DECODED. `;
+        }
+    });
+}
+
+export function LoopThroughFunctions(functions: Array<Function>, raw:string) {
+    let result = functions.find(func => {
+        const res = func(raw);
+        return res[0];
+    });
+    return result ? result(raw) : [false];
 }
 
 export function GetMonthAsString() {

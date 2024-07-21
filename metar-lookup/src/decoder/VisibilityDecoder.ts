@@ -1,11 +1,9 @@
-import { Decoder } from "./DecoderUtils";
+import { Decoder, LoopThroughFunctions } from "./DecoderUtils";
 
 export class VisibilityDecoder extends Decoder {
 
     Decode(raw: string) {
-        return [this.DecodeVisibilityNoMeters, this.DecodeVisibilityMeters, this.DecodeSpecialVis].some(function(func) {
-            return func(raw);
-        });
+        return LoopThroughFunctions([this.DecodeVisibilityNoMeters, this.DecodeVisibilityMeters, this.DecodeSpecialVis], raw);
     }
     
     DecodeVisibilityNoMeters(raw: string) {
@@ -32,9 +30,7 @@ export class VisibilityDecoder extends Decoder {
 
     //because of this METAR report: 'VIS W 2'
     DecodeSpecialVis(raw: string) {
-        return [this.DecodeSingleNumber, this.DecodeVIS].some(function(func) {
-            return func(raw);
-        });
+        return LoopThroughFunctions([this.DecodeSingleNumber, this.DecodeVIS], raw);
     }
     
     DecodeSingleNumber(raw: string) {
