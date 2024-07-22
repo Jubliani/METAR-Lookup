@@ -16,7 +16,6 @@ async function GetReport(airportCode: string, whichLink: string, decodeReports: 
             return 'Error: code not found.';
         }
         if (decodeReports && whichLink == metarLink) {
-            console.log("WKLDFJLSKDJF");
             DecodeMETAR(data[0].rawOb.split(' '), data[0].name);
         } else if (decodeReports && whichLink == tafLink) {
             DecodeTAF(data[0].rawTAF.split(' '), data[0].name);
@@ -37,7 +36,6 @@ export async function SendRequest(airportCode: string, TAFReq: boolean, decodeRe
     if (TAFReq) {
         outputText += '\n\n' + await GetReport(airportCode, tafLink, decodeReports);
     }
-    console.log(outputText);
     return outputText + decodedText;
 }
 

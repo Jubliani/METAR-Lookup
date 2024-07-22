@@ -21,7 +21,8 @@ export function Decode(rawArray: Array<string>, text: string) {
     ];
     rawArray.forEach((element) => {
         for (const decoderClass of parseClasses) {
-            const decoded = new decoderClass(decodedText).Decode(element);
+            console.log("DECODED IS: ", decodedText, decoderClass);
+            const decoded = new decoderClass().Decode(element);
             if (decoded[0]) {
                 decodedText += decoded[1];
                 break;

@@ -8,6 +8,7 @@ export class VisibilityDecoder extends Decoder {
     }
     
     DecodeVisibilityNoMeters(raw: string) {
+        console.log("RAW IS: ", raw)
         if (raw.endsWith("SM")) { 
             const greaterThan = (raw[0] == "P" || raw[0] == "+") ? "greater than " : "";
             if (greaterThan.length > 0) { raw = raw.slice(1); }
