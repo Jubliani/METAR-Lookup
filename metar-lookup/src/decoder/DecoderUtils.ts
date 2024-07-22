@@ -24,6 +24,7 @@ export function Decode(rawArray: Array<string>, text: string) {
         console.log("DECODED WAS: ", decodedText);
         decodedText += ClassLooper(element, parseClasses);
     });
+    return decodedText;
 }
 
 function ClassLooper(element: string, parseClasses: Array<any>) {
