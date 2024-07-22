@@ -1,4 +1,5 @@
-import { Decoder, LoopThroughFunctions } from "./DecoderUtils";
+import { LoopThroughFunctions } from "./DecoderUtils";
+import { Decoder } from "./DecoderClass";
 
 export class SingleWordDecoder extends Decoder {
 

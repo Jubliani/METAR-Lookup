@@ -1,4 +1,4 @@
-import { Decoder } from "./DecoderUtils";
+import { Decoder } from "./DecoderClass";
 
 export class PressureDecoder extends Decoder{
 

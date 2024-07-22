@@ -7,17 +7,6 @@ import { SingleWordDecoder } from "./SingleWordDecoder.ts";
 import { PrevisionDecoder } from "./PrevisionDecoder.ts";
 
 
-export abstract class Decoder {
-    decodedText: string
-
-    constructor(decodedText: string) {
-        this.decodedText = decodedText;
-    }
-
-    abstract Decode(raw: string): Array<string|boolean>;
-
-}
-
 
 export function Decode(rawArray: Array<string>, text: string) {
     let decodedText = text;

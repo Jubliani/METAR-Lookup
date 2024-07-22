@@ -1,6 +1,7 @@
 import * as DecoderUtils from "./DecoderUtils";
+import { Decoder } from "./DecoderClass";
 
-export class PrevisionDecoder extends DecoderUtils.Decoder{
+export class PrevisionDecoder extends Decoder{
 
     Decode(raw: string) {
         if (raw == "NOSIG") {

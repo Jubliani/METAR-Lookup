@@ -1,4 +1,4 @@
-import { Decoder } from "./DecoderUtils";
+import { Decoder } from "./DecoderClass";
 
 export class WindDecoder extends Decoder {
 
