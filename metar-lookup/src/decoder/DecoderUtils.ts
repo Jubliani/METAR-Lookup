@@ -11,12 +11,12 @@ import { PrevisionDecoder } from "./PrevisionDecoder.ts";
 export function Decode(rawArray: Array<string>, text: string) {
     let decodedText = text;
     const parseClasses = [
+        SingleWordDecoder,
         WindDecoder,
-        VisibilityDecoder, 
         CloudDecoder, 
+        VisibilityDecoder, 
         TemperatureDecoder,
         PressureDecoder,
-        SingleWordDecoder,
         PrevisionDecoder,
     ];
     rawArray.forEach((element) => {
@@ -40,7 +40,7 @@ function ClassLooper(element: string, parseClasses: Array<any>) {
 export function LoopThroughFunctions(functions: Array<Function>, raw: string) {
     for (let func of functions) {
         const res = func(raw);
-        console.log("RES IS: ", res);
+        console.log("RES IS: ", res, func);
         if (res[0]) {
             return res;
         }

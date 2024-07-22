@@ -54,7 +54,6 @@ export class VisibilityDecoder extends Decoder {
         return [false];
     }
 
-    //TODO: Decode other modifiers like Haze (HZ), light drizzle (DZ), rain (RA), and also modifiers before them (ex: +SH, -DZ, VCSH)
     DecodeVisModifiers(raw: string) {
         const matchedVisMod = raw.match(/^(\+|\-)?([A-Z]{2})*$/);
         if (!matchedVisMod) {
@@ -71,6 +70,7 @@ export class VisibilityDecoder extends Decoder {
         }
     }
 
+    //TODO: Change logic to do something like SHRA = rain showers, rather than SHRA = Showers Rain
     RecVisModifiers(raw: string, inVicinity: string): Array<boolean|string> {
         if (raw.length == 0) {
             return [true, this.decodedText.slice(0, -1) + inVicinity + ". "];

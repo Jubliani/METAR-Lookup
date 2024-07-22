@@ -22,7 +22,7 @@ export const modifiers: { [key: string]: string } = {
     "RA": "Rain",
     "SA": "Sand",
     "SG": "Snow grains",
-    "SH": "Showers",
+    "SH": "Showers of",
     "SN": "Snow",
     "SP": "Snow pellets",
     "SQ": "Squall",

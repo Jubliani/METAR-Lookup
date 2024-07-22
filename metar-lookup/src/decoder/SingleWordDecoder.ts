@@ -1,21 +1,19 @@
-import { LoopThroughFunctions } from "./DecoderUtils";
-import { Decoder } from "./DecoderClass";
+import { Decoder } from "./DecoderClass.ts";
+import { words } from "./SingleWordUtils.ts"
 
 export class SingleWordDecoder extends Decoder {
 
     Decode(raw: string) {
-        return LoopThroughFunctions([this.DecodeAUTO.bind(this), this.DecodeRemarks.bind(this)], raw);
-    }
-    DecodeAUTO(raw: string) {
-        if (raw == "AUTO") {
-            return [true, this.decodedText + "Fully automated report. "];
+        for (let key in words) {
+            const res = this.SingleDecoder(raw, key);
+            if (res[0]) { return res }
         }
-        return [false];
+        return [false]
     }
 
-    DecodeRemarks(raw: string) {
-        if (raw == "RMK") {
-            return [true, this.decodedText + '\n\nRemarks: \n'];
+    SingleDecoder(raw: string, key: string) {
+        if (raw == key) {
+            return [true, this.decodedText + words[key]];
         }
         return [false];
     }
