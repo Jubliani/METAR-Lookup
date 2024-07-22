@@ -3,7 +3,7 @@ export const modifiers: { [key: string]: string } = {
     "BL": "Blowing",
     "BR": "Mist",
     "DR": "Low drifting",
-    "DS": "Dust storm",
+    "DS": "Dust storm(s)",
     "DU": "Dust",
     "DZ": "Drizzle",
     "FC": "Funnel cloud",
@@ -25,9 +25,9 @@ export const modifiers: { [key: string]: string } = {
     "SH": "Showers of",
     "SN": "Snow",
     "SP": "Snow pellets",
-    "SQ": "Squall",
-    "SS": "Sandstorm",
-    "TS": "Thunderstorm",
+    "SQ": "Squall(s)",
+    "SS": "Sandstorm(s)",
+    "TS": "Thunderstorm(s)",
     "UP": "Unknown precipitation",
     "VA": "Volcanic ash"
 };
