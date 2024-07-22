@@ -56,8 +56,7 @@ export function GetMonthAsString() {
 }
 
 export function GetTimeRange(timeRange: string, month: string) {
-    return `${month} ${timeRange.slice(0, 2)} ${timeRange.slice(2, 4)}00Z to 
-        ${month} ${timeRange.slice(5, 7)} ${timeRange.slice(7)}00Z`;
+    return `${month} ${timeRange.slice(0, 2)} ${timeRange.slice(2, 4)}00Z to ${month} ${timeRange.slice(5, 7)} ${timeRange.slice(7)}00Z`;
 }
 
 export function DecodeSixDigitsToDate(raw: string) {

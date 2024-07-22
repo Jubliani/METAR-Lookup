@@ -73,7 +73,7 @@ export class VisibilityDecoder extends Decoder {
     //TODO: Change logic to do something like SHRA = rain showers, rather than SHRA = Showers Rain
     RecVisModifiers(raw: string, inVicinity: string): Array<boolean|string> {
         if (raw.length == 0) {
-            console.log(inVicinity);
+            this.ChangeShowersIfNeeded();
             return [true, this.decodedText.slice(0, -1) + inVicinity + ". "];
         }
         switch (raw.slice(0, 2)) {
@@ -86,6 +86,12 @@ export class VisibilityDecoder extends Decoder {
             default:
                 this.decodedText += modifiers[raw.slice(0, 2)] + " ";
                 return this.RecVisModifiers(raw.slice(2), inVicinity);
+        }
+    }
+
+    ChangeShowersIfNeeded() {
+        if (this.decodedText.endsWith("of ")) {
+            this.decodedText = this.decodedText.slice(0, -3);
         }
     }
 }
