@@ -52,4 +52,12 @@ export class VisibilityDecoder extends Decoder {
         }
         return [false];
     }
+
+    //TODO: Decode other modifiers like Haze (HZ), light drizzle (DZ), rain (RA), and also modifiers before them (ex: +SH, -DZ, VCSH)
+    DecodeVisModifiers(raw: string) {
+        const matchedVisMod = raw.match(/^(\+|\-|VC)?[A-Z]{2,}/);
+        if (!matchedVisMod) {
+            return [false]
+        }
+    }
 }
