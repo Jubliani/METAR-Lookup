@@ -4,11 +4,14 @@ import { Decoder } from "./DecoderClass";
 export class VisibilityDecoder extends Decoder {
 
     Decode(raw: string) {
-        return LoopThroughFunctions([this.DecodeVisibilityNoMeters, this.DecodeVisibilityMeters, this.DecodeSpecialVis], raw);
+        console.log("DECODEDTEXT IS: ", this.decodedText);
+        const res = LoopThroughFunctions([this.DecodeVisibilityNoMeters.bind(this), this.DecodeVisibilityMeters.bind(this), this.DecodeSpecialVis.bind(this)], raw);
+        console.log("RETURNING: ", res);
+        return res;
     }
     
     DecodeVisibilityNoMeters(raw: string) {
-        console.log("RAW IS: ", raw)
+        console.log("RAW IS: ", raw, raw.slice(0, -2));
         if (raw.endsWith("SM")) { 
             const greaterThan = (raw[0] == "P" || raw[0] == "+") ? "greater than " : "";
             if (greaterThan.length > 0) { raw = raw.slice(1); }
@@ -17,6 +20,7 @@ export class VisibilityDecoder extends Decoder {
         }
         return [false];
     }
+    
     DecodeVisibilityMeters(raw: string) {
         const matchedVisM = raw.match(/^\d{4}$/);
         if (!matchedVisM) {

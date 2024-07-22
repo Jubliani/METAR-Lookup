@@ -4,7 +4,7 @@ import { Decoder } from "./DecoderClass";
 export class SingleWordDecoder extends Decoder {
 
     Decode(raw: string) {
-        return LoopThroughFunctions([this.DecodeAUTO, this.DecodeRemarks], raw);
+        return LoopThroughFunctions([this.DecodeAUTO.bind(this), this.DecodeRemarks.bind(this)], raw);
     }
     DecodeAUTO(raw: string) {
         if (raw == "AUTO") {

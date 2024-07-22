@@ -20,24 +20,31 @@ export function Decode(rawArray: Array<string>, text: string) {
         PrevisionDecoder,
     ];
     rawArray.forEach((element) => {
-        for (const decoderClass of parseClasses) {
-            console.log("DECODED IS: ", decodedText, decoderClass);
-            const decoded = new decoderClass().Decode(element);
-            if (decoded[0]) {
-                decodedText += decoded[1];
-                break;
-            }
-            decodedText += `${element} NOT DECODED. `;
-        }
+        console.log("ELEMENT IS: ", element);
+        console.log("DECODED WAS: ", decodedText);
+        decodedText += ClassLooper(element, parseClasses);
     });
 }
 
-export function LoopThroughFunctions(functions: Array<Function>, raw:string) {
-    let result = functions.find(func => {
+function ClassLooper(element: string, parseClasses: Array<any>) {
+    for (const decoderClass of parseClasses) {
+        const decoded = new decoderClass().Decode(element);
+        if (decoded[0]) {
+            return decoded[1];
+        }
+    }
+    return `${element} NOT DECODED. `;
+}
+
+export function LoopThroughFunctions(functions: Array<Function>, raw: string) {
+    for (let func of functions) {
         const res = func(raw);
-        return res[0];
-    });
-    return result ? result(raw) : [false];
+        console.log("RES IS: ", res);
+        if (res[0]) {
+            return res;
+        }
+    }
+    return [false];
 }
 
 export function GetMonthAsString() {
