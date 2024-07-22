@@ -48,5 +48,5 @@ function DecodeMETAR(rawArray: Array<string>, airportName: string) {
 function DecodeTAF(rawArray: Array<string>, airportName: string) {
     if (rawArray[0] == "TAF") { rawArray = rawArray.slice(1); }
     decodedText += `\n\nTAF report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}, valid from ${GetTimeRange(rawArray[2], GetMonthAsString())}.\n\n`;
-    decodedText = Decode(rawArray.slice(2), decodedText)
+    decodedText = Decode(rawArray.slice(3), decodedText)
 }
