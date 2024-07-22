@@ -10,4 +10,4 @@ NOTE: decodings may not fully translate reports. METAR/TAF reports can include a
 </p></b>
 
 ## Installation
-Download the repo and load in the upnacked extension into Chrome. <br>
+cd into metar-lookup, build the extension (I used `npm run build`) and load it unpacked into Chrome. <br>
