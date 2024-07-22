@@ -1,5 +1,7 @@
 export const words: { [key: string]: string } = {
+    "AO1": "Automated station without precipitation discriminator. ",
+    "AO2": "Automated station with precipitation discriminator. ",
     "AUTO": "Fully automated report. ",
-    "RMK": "\n\nRemarks: \n",
-    "DSNT": "Distant "
+    "DSNT": "Distant ",
+    "RMK": "\n\nRemarks: \n"
 };
