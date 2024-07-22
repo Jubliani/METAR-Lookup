@@ -3,7 +3,7 @@ import { Decoder } from "./DecoderClass";
 export class PressureDecoder extends Decoder{
 
     Decode(raw: string) {
-        const matchedAltimeter = raw.match(/^((Q|A)\d{4})|SLP\D{3}/);
+        const matchedAltimeter = raw.match(/^((Q|A)\d{4})|SLP\d{3}/);
         if (matchedAltimeter) {
             this.DecodeTypeOfPressure(raw);
             return [true, this.decodedText];
