@@ -24,13 +24,13 @@ function SearchComponent( { handleClick }: SearchComponentProps ) {
                     <button className="btn btn-outline-secondary btn-light" id="reqButton" type="button" onClick={onClick}>Search</button>
                 </div>
             </div>
-            <div className="form-check form-check-inline">
+            <div className="form-check form-check-inline fw-bold">
                 <input className="form-check-input" type="checkbox" id="TAFReq" 
                     checked={includeTAF}
                     onChange={e => setIncludeTAF(e.target.checked)} />
                 <label className="form-check-label" htmlFor="TAFReq">Include TAF</label>
             </div>
-            <div className="form-check form-check-inline">
+            <div className="form-check form-check-inline fw-bold">
                 <input className="form-check-input" type="checkbox" id="DecodeReq"
                     checked={decode}
                     onChange={e => setDecode(e.target.checked)} />

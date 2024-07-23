@@ -1,6 +1,9 @@
 body {
     width:700px;
 }
+.body {
+    background-color: #265F95;
+}
 #report {
     white-space: pre-line;
 }

@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <h1>METAR lookup</h1>
+      <h1 className="fw-bold">METAR Lookup</h1>
       <SearchComponent handleClick={handleButtonClick}/>
       <OutputComponent report={reportText} />
     </>
