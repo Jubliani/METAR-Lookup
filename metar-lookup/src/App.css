@@ -1,9 +1,67 @@
 body {
     width:700px;
-}
-.body {
     background-color: #265F95;
 }
 #report {
     white-space: pre-line;
+}
+
+#title {
+    color: white;
+    font-family: 'Mukta', sans-serif;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden; 
+    margin-top: 10px;
+}
+
+#checkboxInput label {
+    margin-right:30px;
+    color: #FFF;
+    font-family: 'Mukta', sans-serif;
+    font-weight: bold;
+}
+
+.checkbox-container input {
+    margin-right: 5px;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.input-container input {
+    border: none;
+    padding: 10px;
+    flex-grow: 1;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+.input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+}
+
+.input-container button {
+    border: none;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-left: 2px solid #0000006c;
+    cursor: pointer;
+    color: white;
+}
+
+.input-container button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.input-container button:active {
+    background-color: rgba(27, 27, 27, 0.5);
 }
