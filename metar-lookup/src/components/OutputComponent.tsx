@@ -5,7 +5,9 @@ interface OutputComponentProps {
 const OutputComponent: React.FC<OutputComponentProps> = ({ report }) => {
     return (
         <>
-        <p id="report">{report}</p>
+        <div id="report">
+            <p>{report}</p>
+        </div>
         </>
     );
 }
