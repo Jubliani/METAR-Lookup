@@ -1,5 +1,5 @@
 body {
-    width:700px;
+    width:650px;
     background-color: #265F95;
     /* background-color: #ffffff; */
 }
@@ -14,15 +14,14 @@ body {
 }
 
 #report p {
-    padding-top: 5px;
-    padding-left: 15px;
-    padding-bottom: 5px;
+    padding: 5px 15px 5px 15px;
 }
 
 #title {
     color: white;
     font-family: 'Mukta', sans-serif;
     margin: auto;
+    font-size: 40px;
 }
 
 .checkbox-container {
@@ -57,16 +56,12 @@ body {
     color: white;
     font-size: 20px;
     min-width: 50px;
+    transition: background-color 0.1s ease;
 }
 
-/* .input-container input:active {
-    border: none;
-    padding: 7px;
-    flex-grow: 1;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: white;
-    font-size: 20px;
-} */
+.input-container input:focus {
+    background-color: rgba(177, 177, 177, 0.3);
+}
 
 .input-container input::placeholder {
     color: rgba(255, 255, 255, 0.7);
