@@ -15,27 +15,54 @@ function SearchComponent( { handleClick }: SearchComponentProps ) {
     }
     return (
         <>
-            <div className="input-group mb-3" style={{width: "75%"}}>
-                <input type="text" 
-                    className="form-control" id="inputText" placeholder="Enter ICAO code" aria-label="Enter ICAO code" maxLength={4} aria-describedby="basic-addon2" 
-                    value={fieldCode}
-                    onChange={e => setFieldCode(e.target.value)} />
-                <div className="input-group-append">
-                    <button className="btn btn-outline-secondary btn-light" id="reqButton" type="button" onClick={onClick}>Search</button>
-                </div>
+        <div className="input-container">
+            <input type="text" 
+                id="inputText" placeholder="Enter ICAO code" aria-label="Enter ICAO code" maxLength={4}
+                value={fieldCode}
+                onChange={e => setFieldCode(e.target.value)} />
+            <div>
+                <button id="reqButton" type="button" onClick={onClick}>Search</button>
             </div>
-            <div className="form-check form-check-inline">
-                <input className="form-check-input" type="checkbox" id="TAFReq" 
+        </div>
+        {/*skeleton code provided by https://getcssscan.com/css-checkboxes-examples */}
+        <div className="checkbox-container">
+            <div className="checkbox-wrapper-4">
+                <input className="inp-cbx" id="TAFreq" type="checkbox"
                     checked={includeTAF}
                     onChange={e => setIncludeTAF(e.target.checked)} />
-                <label className="form-check-label" htmlFor="TAFReq">Include TAF</label>
+                <label className="cbx" htmlFor="TAFreq">
+                    <span>
+                        <svg width="12px" height="10px">
+                            <use xlinkHref="#check-4"></use>
+                        </svg>
+                    </span>
+                    <span>Include TAF</span>
+                </label>
+                <svg className="inline-svg">
+                    <symbol id="check-4" viewBox="0 0 12 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </symbol>
+                </svg>
             </div>
-            <div className="form-check form-check-inline">
-                <input className="form-check-input" type="checkbox" id="DecodeReq"
+            <div className="checkbox-wrapper-4">
+                <input className="inp-cbx" id="DecodeReq" type="checkbox"
                     checked={decode}
                     onChange={e => setDecode(e.target.checked)} />
-                <label className="form-check-label" htmlFor="DecodeReq">Decode Reports</label>
+                <label className="cbx" htmlFor="DecodeReq">
+                    <span>
+                        <svg width="12px" height="10px">
+                            <use xlinkHref="#check-4"></use>
+                        </svg>
+                    </span>
+                    <span>Decode reports</span>
+                </label>
+                <svg className="inline-svg">
+                    <symbol id="check-4" viewBox="0 0 12 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </symbol>
+                </svg>
             </div>
+        </div>
         </>
     );
 }
