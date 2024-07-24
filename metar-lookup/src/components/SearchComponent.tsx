@@ -24,16 +24,20 @@ function SearchComponent( { handleClick }: SearchComponentProps ) {
                 <button id="reqButton" type="button" onClick={onClick}>Search</button>
             </div>
         </div>
-        { /*skeleton code provided by https://getcssscan.com/css-checkboxes-examples */}
+        {/*skeleton code provided by https://getcssscan.com/css-checkboxes-examples */}
         <div className="checkbox-container">
             <div className="checkbox-wrapper-4">
                 <input className="inp-cbx" id="TAFreq" type="checkbox"
                     checked={includeTAF}
                     onChange={e => setIncludeTAF(e.target.checked)} />
-                <label className="cbx" htmlFor="TAFreq"><span>
-                <svg width="12px" height="10px">
-                    <use xlinkHref="#check-4"></use>
-                </svg></span><span>Include TAF</span></label>
+                <label className="cbx" htmlFor="TAFreq">
+                    <span>
+                        <svg width="12px" height="10px">
+                            <use xlinkHref="#check-4"></use>
+                        </svg>
+                    </span>
+                    <span>Include TAF</span>
+                </label>
                 <svg className="inline-svg">
                     <symbol id="check-4" viewBox="0 0 12 10">
                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
@@ -44,10 +48,14 @@ function SearchComponent( { handleClick }: SearchComponentProps ) {
                 <input className="inp-cbx" id="DecodeReq" type="checkbox"
                     checked={decode}
                     onChange={e => setDecode(e.target.checked)} />
-                <label className="cbx" htmlFor="DecodeReq"><span>
-                <svg width="12px" height="10px">
-                    <use xlinkHref="#check-4"></use>
-                </svg></span><span>Decode reports</span></label>
+                <label className="cbx" htmlFor="DecodeReq">
+                    <span>
+                        <svg width="12px" height="10px">
+                            <use xlinkHref="#check-4"></use>
+                        </svg>
+                    </span>
+                    <span>Decode reports</span>
+                </label>
                 <svg className="inline-svg">
                     <symbol id="check-4" viewBox="0 0 12 10">
                     <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
