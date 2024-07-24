@@ -16,7 +16,7 @@ function App() {
     <>
       <h1 id="title">METAR Lookup</h1>
       <SearchComponent handleClick={handleButtonClick}/>
-      <OutputComponent report={reportText} />
+      {reportText && <OutputComponent report={reportText} />}
     </>
   )
 }
