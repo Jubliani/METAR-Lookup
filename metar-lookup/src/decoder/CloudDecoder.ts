@@ -3,7 +3,7 @@ import { Decoder } from "./DecoderClass";
 export class CloudDecoder extends Decoder{
 
     Decode(raw: string) {
-        const matchedCloudStandard = raw.match(/^(?!SLP)[A-Z]{3}\d{3}/);
+        const matchedCloudStandard = raw.match(/^(?!SLP)[A-Z]{3}\d{3}$/);
         if (matchedCloudStandard) {
             console.log("STRING IS: ", raw);
             this.DecodeCloudsHelper(raw.slice(0,3), raw.slice(6), raw.slice(3, 6));
