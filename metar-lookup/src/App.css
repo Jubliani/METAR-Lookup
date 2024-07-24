@@ -1,7 +1,6 @@
 body {
     width:650px;
     background-color: #265F95;
-    /* background-color: #ffffff; */
 }
 #report {
     white-space: pre-line;
@@ -113,9 +112,7 @@ body {
 .checkbox-wrapper-4 .cbx:not(:last-child) {
     margin-right: 6px;
 }
-/* .checkbox-wrapper-4 .cbx:hover {
-    background: rgba(202, 221, 255, 0.308);
-} */
+
 .checkbox-wrapper-4 .cbx span {
     float: left;
     vertical-align: middle;
