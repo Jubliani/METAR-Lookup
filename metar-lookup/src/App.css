@@ -1,11 +1,18 @@
 body {
     width:650px;
     background-color: #265F95;
+    font-family: 'Mukta', sans-serif;
 }
+
+#error {
+    font-weight: bold;
+    color: rgb(255, 116, 111);
+    font-size: 20px;
+}
+
 #report {
     white-space: pre-line;
     color: white;
-    font-family: 'Mukta', sans-serif;
     font-weight: lighter;
     font-size: 18px;
     background-color: rgba(0, 0, 0, 0.205);
@@ -18,7 +25,6 @@ body {
 
 #title {
     color: white;
-    font-family: 'Mukta', sans-serif;
     margin: auto;
     font-size: 40px;
 }
@@ -35,11 +41,10 @@ body {
 #checkboxInput label {
     margin-right:30px;
     color: #FFF;
-    font-family: 'Mukta', sans-serif;
     font-weight: bold;
 }
 
-.input-container {
+.input-text-container {
     display: flex;
     align-items: center;
     border-radius: 5px;
@@ -47,7 +52,7 @@ body {
     width: 50%;
 }
 
-.input-container input {
+.input-text-container input {
     border: none;
     padding: 7px;
     flex-grow: 1;
@@ -58,16 +63,16 @@ body {
     transition: background-color 0.1s ease;
 }
 
-.input-container input:focus {
+.input-text-container input:focus {
     background-color: rgba(177, 177, 177, 0.3);
 }
 
-.input-container input::placeholder {
+.input-text-container input::placeholder {
     color: rgba(255, 255, 255, 0.7);
     font-style: italic;
 }
 
-.input-container button {
+.input-text-container button {
     border: none;
     padding: 7px 10px;
     font-size: 20px;
@@ -77,15 +82,15 @@ body {
     color: white;
     transition: background-color 0.1s ease;
 }
-.input-container input:focus, .input-container button:focus {
+.input-text-container input:focus, .input-container button:focus {
     outline: none;
 }
 
-.input-container button:hover {
+.input-text-container button:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.input-container button:active {
+.input-text-container button:active {
     background-color: rgba(27, 27, 27, 0.5);
 }
 
