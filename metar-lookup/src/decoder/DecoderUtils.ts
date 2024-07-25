@@ -5,6 +5,7 @@ import { TemperatureDecoder } from "./TemperatureDecoder.ts";
 import { PressureDecoder } from "./PressureDecoder.ts";
 import { SingleWordDecoder } from "./SingleWordDecoder.ts";
 import { PrevisionDecoder } from "./PrevisionDecoder.ts";
+import { DirectionsDecoder } from "./DirectionsDecoder.ts";
 
 
 
@@ -18,6 +19,7 @@ export function Decode(rawArray: Array<string>, text: string) {
         TemperatureDecoder,
         PressureDecoder,
         PrevisionDecoder,
+        DirectionsDecoder,
     ];
     rawArray.forEach((element) => {
         console.log("ELEMENT IS: ", element);
