@@ -10,7 +10,7 @@ NOTE: decodings may not fully translate reports. METAR/TAF reports can include a
 </p></b>
 
 ## Installation
-cd into metar-lookup, build the extension (I used `npm run build`) and load it unpacked into Chrome. <br>
+`cd` into metar-lookup, build the extension (I used `npm run build`) and load it unpacked into Chrome. <br>
 
 ## Disclaimer
 The information provided by this extension is intended for general reference purposes only. Moreover, decodings may be inaccurate/incomplete. As such, do NOT rely upon this extension as your sole source of aviation weather information. As pilot in command, you are directly responsible for assuring correct information and ensuring the safety of your flight.
