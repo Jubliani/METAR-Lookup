@@ -1,19 +1,21 @@
 import { DecodeSixDigitsToDate, GetMonthAsString, GetTimeRange, Decode } from "./decoder/DecoderUtils.ts";
 
-const metarLink = 'https://aviationweather.gov/api/data/metar?'
-const tafLink = 'https://aviationweather.gov/api/data/taf?'
+const metarLink = 'https://aviationweather.gov/api/data/metar?';
+const tafLink = 'https://aviationweather.gov/api/data/taf?';
+const ERROR_CODE = 'Error: Airfield code not found.';
+const NEWTORK_ERROR = 'Error: Network response was not ok.';
 
 var decodedText = "";
 async function GetReport(airportCode: string, whichLink: string, decodeReports: boolean) {
     try {
         const response = await fetch(`${whichLink}ids=${airportCode}&format=json`);
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(NEWTORK_ERROR);
         }
         const data = await response.json();
         if (Object.keys(data).length == 0) {
             decodedText = '';
-            return 'Error: code not found.';
+            throw new Error(ERROR_CODE);
         }
         if (decodeReports && whichLink == metarLink) {
             DecodeMETAR(data[0].rawOb.split(' '), data[0].name);
@@ -23,8 +25,9 @@ async function GetReport(airportCode: string, whichLink: string, decodeReports: 
             decodedText = '';
         }
         return whichLink == metarLink ? data[0].rawOb : data[0].rawTAF;
-    } catch (error) {
-        console.error('Error:', error);
+    } catch (error:any) {
+        console.log("ERROR TYPE: ", typeof(error))
+        return [false, error.message];
     }
 }
 
@@ -32,13 +35,14 @@ export async function SendRequest(airportCode: string, TAFReq: boolean, decodeRe
     if (!airportCode) {
         return
     }
-    let outputText = await GetReport(airportCode, metarLink, decodeReports)
+    let outputText = await GetReport(airportCode, metarLink, decodeReports);
+    console.log("OUTPUT TEXT IS ", outputText);
+    if (!outputText[0]) { return outputText; }
     if (TAFReq) {
         outputText += '\n\n' + await GetReport(airportCode, tafLink, decodeReports);
     }
-    return outputText + decodedText;
+    return [true, outputText + decodedText];
 }
-
 
 function DecodeMETAR(rawArray: Array<string>, airportName: string) {
     decodedText = `\n\nMETAR report for ${rawArray[0]} ${airportName} created on ${DecodeSixDigitsToDate(rawArray[1].slice(0, 6))}.\n\n`;
