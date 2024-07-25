@@ -5,5 +5,6 @@ export const words: { [key: string]: string } = {
     "AUTO": "Fully automated report. ",
     "AND": "and ",
     "DSNT": "Distant ",
+    "NSW": "No significant weather. ",
     "RMK": "\n\nRemarks: \n"
 };
