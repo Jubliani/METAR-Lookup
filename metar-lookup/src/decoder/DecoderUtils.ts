@@ -31,6 +31,7 @@ export function Decode(rawArray: Array<string>, text: string) {
 
 function ClassLooper(element: string, parseClasses: Array<any>) {
     for (const decoderClass of parseClasses) {
+        console.log("RUNNING THROUGH: ", decoderClass);
         const decoded = new decoderClass().Decode(element);
         if (decoded[0]) {
             return decoded[1];
