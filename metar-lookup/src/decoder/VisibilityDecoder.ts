@@ -84,9 +84,16 @@ export class VisibilityDecoder extends Decoder {
                 this.decodedText += "Recent ";
                 return this.RecVisModifiers(raw.slice(2), inVicinity);
             default:
+                if (!this.CheckStringMatchesModifier(raw.slice(0, 2))[0]) {
+                    return [false]
+                }
                 this.decodedText += modifiers[raw.slice(0, 2)] + " ";
                 return this.RecVisModifiers(raw.slice(2), inVicinity);
         }
+    }
+
+    CheckStringMatchesModifier(toCheck: string) {
+        return [modifiers[toCheck] != undefined, modifiers[toCheck]];
     }
 
     ChangeShowersIfNeeded() {

@@ -5,6 +5,7 @@ import { TemperatureDecoder } from "./TemperatureDecoder.ts";
 import { PressureDecoder } from "./PressureDecoder.ts";
 import { SingleWordDecoder } from "./SingleWordDecoder.ts";
 import { PrevisionDecoder } from "./PrevisionDecoder.ts";
+import { DirectionsDecoder } from "./DirectionsDecoder.ts";
 
 
 
@@ -18,6 +19,7 @@ export function Decode(rawArray: Array<string>, text: string) {
         TemperatureDecoder,
         PressureDecoder,
         PrevisionDecoder,
+        DirectionsDecoder,
     ];
     rawArray.forEach((element) => {
         console.log("ELEMENT IS: ", element);
@@ -29,6 +31,7 @@ export function Decode(rawArray: Array<string>, text: string) {
 
 function ClassLooper(element: string, parseClasses: Array<any>) {
     for (const decoderClass of parseClasses) {
+        console.log("RUNNING THROUGH: ", decoderClass);
         const decoded = new decoderClass().Decode(element);
         if (decoded[0]) {
             return decoded[1];
