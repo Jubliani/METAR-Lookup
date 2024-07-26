@@ -8,6 +8,7 @@ export class DirectionsDecoder extends Decoder {
         if (!matchedDirections) {
             return [false];
         }
+        console.log("MATCHED DIRECTIONS");
         return this.LoopThroughStringAndDecode(raw.split("-"));
     }
 
