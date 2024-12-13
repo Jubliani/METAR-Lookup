@@ -21,7 +21,7 @@ export class TemperatureDecoder extends Decoder {
     } 
 
     TryDecodeSpecialFormat(raw: string) {
-        const matchedTempDew = raw.match(/^T\d{9}$/);
+        const matchedTempDew = raw.match(/^T\d{8}$/);
         const negativeTempSign = raw[1] == "1" ? "-" : ""
         const negativeDewpointSign = raw[5] == "1" ? "-" : ""
         if (matchedTempDew) {
