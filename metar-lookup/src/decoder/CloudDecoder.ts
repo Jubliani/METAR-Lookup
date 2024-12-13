@@ -19,6 +19,8 @@ export class CloudDecoder extends Decoder{
                 return [true, this.decodedText + "No cloud detected. "];
             case "SKC":
                 return [true, this.decodedText + "Sky clear. "]
+            case "CLR":
+                return [true, this.decodedText + "Sky clear at or below 12,000ft. "]   
             case "TCU":
                 return [true, this.decodedText + "Towering cumulus clouds "]
             case "CB":

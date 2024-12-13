@@ -2,23 +2,34 @@ import { Decoder } from "./DecoderClass";
 
 export class TemperatureDecoder extends Decoder {
 
-    //TODO: decode M##/M## format
-
     Decode(raw: string) {
-        const normalAttempt = this.TryDecodeNormalFormat(raw) 
-        if (normalAttempt[0]) {
-            return normalAttempt
+        const attempt = this.TryDecodeNormalFormat(raw) 
+        if (attempt[0]) {
+            return attempt
         }
         return this.TryDecodeSpecialFormat(raw)
     }
 
     TryDecodeNormalFormat(raw: string) {
-        const matchedTempDew = raw.match(/^\d{2}\/\d{2}/);
+        const matchedTempDew = raw.match(/^(M?\d{2})\/(M?\d{2})$/);
         if (matchedTempDew) {
-            return [true, this.decodedText + `Temperature ${raw.slice(0,2)}\u00B0C, dew point ${raw.slice(3)}\u00B0C. `];
+            return this.DecodeNormalFormat(matchedTempDew)
         }
         return [false]
     } 
+
+    DecodeNormalFormat(match: RegExpMatchArray) {
+        const [, firstPart, secondPart] = match;
+        return [true, this.decodedText + `Temperature ${this.DecodeTemperature(firstPart)}, dew point ${this.DecodeTemperature(secondPart)}. `];
+    }
+
+    DecodeTemperature(tempString: string) {
+        if (tempString[0] == "M") {
+            return `-${Number(tempString.slice(1))}\u00B0C`
+        }
+        return `${Number(tempString)}\u00B0C`
+    }
+
 
     TryDecodeSpecialFormat(raw: string) {
         const matchedTempDew = raw.match(/^T\d{8}$/);
