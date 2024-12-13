@@ -9,6 +9,10 @@ function App() {
   const [reportText, setText] = useState<[boolean, string]>([false, ""]);
   
     const handleButtonClick = async (fieldCode: string, includeTAF: boolean, decode: boolean) => {
+      if (fieldCode.length != 4) {
+        setText([false, "Please enter a valid ICAO code!"])
+        return
+      }
       const report = await index.SendRequest(fieldCode, includeTAF, decode);
       console.log("REPORT IS: ", report);
       setText(report);
