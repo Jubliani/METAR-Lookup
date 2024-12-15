@@ -65,3 +65,10 @@ export function GetTimeRange(timeRange: string, month: string) {
 export function DecodeSixDigitsToDate(raw: string) {
     return `${GetMonthAsString()} ${raw.slice(0, 2)} at ${raw.slice(2)}Z`
 }
+
+export function RemovePossiblePreviousColon(decodedText: string): string {
+    if (decodedText.endsWith(": ")) {
+        return decodedText.slice(0, -2) + " ";
+    }
+    return decodedText;
+}
