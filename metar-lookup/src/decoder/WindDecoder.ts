@@ -27,7 +27,6 @@ export class WindDecoder extends Decoder {
         }
         const speed = match[1];
         const rest = match[2];
-        console.log("AFTER ISOLATING WIND SPEED: ", speed, rest)
         return { speed, rest };
     }
     
@@ -44,7 +43,6 @@ export class WindDecoder extends Decoder {
     CheckForGust(raw: string): void {
         const [matched, matched1, matched2, matched3] = [raw.match(/G\d+KT/), raw.match(/G\d+MPS/), raw.match(/KT/), raw.match(/MPS/)]
         if (matched) {
-            console.log("MATCHED IN GUST IS: ", matched, matched[0].substring(1, matched[0].length - 2));
             Decoder.decodedText += `gusting to ${matched[0].substring(1, matched[0].length - 2)} knots. `;
         } else if (matched1) {
             Decoder.decodedText += `gusting to ${matched1[0].substring(1, matched1[0].length - 3)} meters/sec. `;

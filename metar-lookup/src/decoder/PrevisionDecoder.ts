@@ -28,7 +28,6 @@ export class PrevisionDecoder extends Decoder{
         }
         const matchedTimeRange = raw.match(/^\d{4}\/\d{4}/);
         if (matchedTimeRange) {
-            console.log("CURRENT TEXT IS WE MATCHED TIME RANGE: ", Decoder.decodedText)
             DecoderUtils.RemovePossiblePreviousColon()
             Decoder.decodedText += `From ${DecoderUtils.GetTimeRange(raw, DecoderUtils.GetMonthAsString())}: `
             return true

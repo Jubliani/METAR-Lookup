@@ -12,7 +12,6 @@ export class VisibilityDecoder extends Decoder {
     }
     
     DecodeVisibilityNoMeters(raw: string): boolean {
-        console.log("RAW IS: ", raw, raw.slice(0, -2));
         if (raw.endsWith("SM")) { 
             const greaterThan = (raw[0] == "P" || raw[0] == "+") ? "greater than " : "";
             if (greaterThan.length > 0) { raw = raw.slice(1); }
@@ -81,7 +80,6 @@ export class VisibilityDecoder extends Decoder {
         }
         switch (raw.slice(0, 2)) {
             case "VC":
-                console.log("WE GOT VC");
                 return this.RecVisModifiers(raw.slice(2), " in the vicinity of the area");
             case "RE":
                 Decoder.decodedText += "Recent ";

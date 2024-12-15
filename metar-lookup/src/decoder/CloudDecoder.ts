@@ -5,11 +5,9 @@ export class CloudDecoder extends Decoder{
     Decode(raw: string) {
         const matchedCloudStandard = raw.match(/^(?!SLP)[A-Z]{3}\d{3}((TCU)|(CB))?$/);
         if (matchedCloudStandard) {
-            console.log("STRING IS: ", raw);
             this.DecodeCloudsHelper(raw.slice(0,3), raw.slice(6), raw.slice(3, 6));
             return true
         }
-        console.log("SWITCHING");
         switch(raw) {
             case "NSC":
                 Decoder.decodedText += "No significant clouds. "
