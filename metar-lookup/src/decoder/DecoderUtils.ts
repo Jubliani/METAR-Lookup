@@ -24,7 +24,7 @@ export function Decode(rawArray: Array<string>, currentDecodedText: string) {
     rawArray.forEach((element) => {
         console.log("ELEMENT IS: ", element);
         console.log("DECODED WAS: ", currentDecodedText);
-        console.log("DECODER TEXT IS: ", Decoder.decodedText);
+        console.log("DECODER TEXT WAS: ", Decoder.decodedText);
         ClassLooper(element, parseClasses);
     });
     return currentDecodedText + Decoder.decodedText;
