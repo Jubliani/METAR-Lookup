@@ -1,9 +1,5 @@
 export abstract class Decoder {
-    decodedText: string;
+    static decodedText = "";
 
-    constructor() {
-        this.decodedText = '';
-    }
-
-    abstract Decode(raw: string): Array<string|boolean>;
+    abstract Decode(raw: string): boolean;
 }

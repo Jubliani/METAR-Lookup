@@ -7,26 +7,33 @@ export class CloudDecoder extends Decoder{
         if (matchedCloudStandard) {
             console.log("STRING IS: ", raw);
             this.DecodeCloudsHelper(raw.slice(0,3), raw.slice(6), raw.slice(3, 6));
-            return [true, this.decodedText];
+            return true
         }
         console.log("SWITCHING");
         switch(raw) {
             case "NSC":
-                return [true, this.decodedText + "No significant clouds. "]
+                Decoder.decodedText += "No significant clouds. "
+                return true
             case "CAVOK":
-                return [true, this.decodedText + "Ceiling and visibility OK. "]
+                Decoder.decodedText += "Ceiling and visibility OK. "
+                return true
             case "NCD":
-                return [true, this.decodedText + "No cloud detected. "];
+                Decoder.decodedText += "No cloud detected. "
+                return true
             case "SKC":
-                return [true, this.decodedText + "Sky clear. "]
+                Decoder.decodedText += "Sky clear. "
+                return true
             case "CLR":
-                return [true, this.decodedText + "Sky clear at or below 12,000ft. "]   
+                Decoder.decodedText += "Sky clear at or below 12,000ft. "
+                return true 
             case "TCU":
-                return [true, this.decodedText + "Towering cumulus clouds "]
+                Decoder.decodedText += "Towering cumulus clouds "
+                return true
             case "CB":
-                return [true, this.decodedText + "Cumulonimbus clouds "]
+                Decoder.decodedText += "Cumulonimbus clouds "
+                return true
             default:
-                return [false];
+                return false;
         }
     }
 
@@ -39,40 +46,40 @@ export class CloudDecoder extends Decoder{
     DecodeCloudType(cloudType: string) {
         switch (cloudType) {
             case "FEW":
-                this.decodedText += "Few ";
+                Decoder.decodedText += "Few ";
                 break;
             case "SCT":
-                this.decodedText += "Scattered ";
+                Decoder.decodedText += "Scattered ";
                 break;
             case "BKN":
-                this.decodedText += "Broken ";
+                Decoder.decodedText += "Broken ";
                 break;
             case "OVC":
-                this.decodedText += "Overcast ";
+                Decoder.decodedText += "Overcast ";
                 break;
             
             default:
-                this.decodedText += "CLOUD TYPE NOT DECODED ";
+                Decoder.decodedText += "CLOUD TYPE NOT DECODED ";
         }
     }
 
     DecodeSpecialCloud(specialCloud: string) {
         switch (specialCloud) {
             case "TCU":
-                this.decodedText += "towering cumulus clouds ";
+                Decoder.decodedText += "towering cumulus clouds ";
                 break;
             case "CB":
-                this.decodedText += "cumulonimbus clouds ";
+                Decoder.decodedText += "cumulonimbus clouds ";
                 break;
             case "":
-                this.decodedText += "clouds ";
+                Decoder.decodedText += "clouds ";
                 break;
             default:
-                this.decodedText += "SPECIAL CLOUD TYPE NOT DECODED ";
+                Decoder.decodedText += "SPECIAL CLOUD TYPE NOT DECODED ";
         }
     }
 
     DecodeCloudAlt(cloudAlt: string) {
-        this.decodedText += `at ${String(parseInt(cloudAlt) * 100)} feet AGL. `;
+        Decoder.decodedText += `at ${String(parseInt(cloudAlt) * 100)} feet AGL. `;
     }
 }

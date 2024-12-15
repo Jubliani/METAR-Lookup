@@ -6,9 +6,10 @@ export class SingleWordDecoder extends Decoder {
     Decode(raw: string) {
         for (let key in words) {
             if (raw == key) {
-                return [true, this.decodedText + words[key]];
+                Decoder.decodedText += words[key]
+                return true;
             }
         }
-        return [false]
+        return false
     }
 }

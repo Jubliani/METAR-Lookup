@@ -6,49 +6,50 @@ import { PressureDecoder } from "./PressureDecoder.ts";
 import { SingleWordDecoder } from "./SingleWordDecoder.ts";
 import { PrevisionDecoder } from "./PrevisionDecoder.ts";
 import { DirectionsDecoder } from "./DirectionsDecoder.ts";
+import { Decoder } from "./DecoderClass";
 
 
-
-export function Decode(rawArray: Array<string>, text: string) {
-    let decodedText = text;
+export function Decode(rawArray: Array<string>, currentDecodedText: string) {
+    Decoder.decodedText = "";
     const parseClasses = [
-        SingleWordDecoder,
-        WindDecoder,
-        CloudDecoder, 
-        VisibilityDecoder, 
-        TemperatureDecoder,
-        PressureDecoder,
-        PrevisionDecoder,
-        DirectionsDecoder,
+        new SingleWordDecoder(),
+        new WindDecoder(),
+        new CloudDecoder(), 
+        new VisibilityDecoder(), 
+        new TemperatureDecoder(),
+        new PressureDecoder(),
+        new PrevisionDecoder(),
+        new DirectionsDecoder(),
     ];
     rawArray.forEach((element) => {
         console.log("ELEMENT IS: ", element);
-        console.log("DECODED WAS: ", decodedText);
-        decodedText += ClassLooper(element, parseClasses);
+        console.log("DECODED WAS: ", currentDecodedText);
+        console.log("DECODER TEXT IS: ", Decoder.decodedText);
+        ClassLooper(element, parseClasses);
     });
-    return decodedText;
+    return currentDecodedText + Decoder.decodedText;
 }
 
-function ClassLooper(element: string, parseClasses: Array<any>) {
-    for (const decoderClass of parseClasses) {
-        console.log("RUNNING THROUGH: ", decoderClass);
-        const decoded = new decoderClass().Decode(element);
-        if (decoded[0]) {
-            return decoded[1];
+function ClassLooper(element: string, parseClasses: Array<Decoder>) {
+    for (const decoderClassInstance of parseClasses) {
+        console.log("RUNNING THROUGH: ", decoderClassInstance.constructor.name);
+        const decoded = decoderClassInstance.Decode(element);
+        if (decoded) {
+            return
         }
     }
-    return `${element} NOT DECODED. `;
+    Decoder.decodedText += `${element} NOT DECODED. `;
 }
 
 export function LoopThroughFunctions(functions: Array<Function>, raw: string) {
     for (let func of functions) {
         const res = func(raw);
         console.log("RES IS: ", res, func);
-        if (res[0]) {
-            return res;
+        if (res) {
+            return true;
         }
     }
-    return [false];
+    return false;
 }
 
 export function GetMonthAsString() {
@@ -66,9 +67,8 @@ export function DecodeSixDigitsToDate(raw: string) {
     return `${GetMonthAsString()} ${raw.slice(0, 2)} at ${raw.slice(2)}Z`
 }
 
-export function RemovePossiblePreviousColon(decodedText: string): string {
-    if (decodedText.endsWith(": ")) {
-        return decodedText.slice(0, -2) + " ";
+export function RemovePossiblePreviousColon() {
+    if (Decoder.decodedText.endsWith(": ")) {
+        Decoder.decodedText = Decoder.decodedText.slice(0, -2) + " ";
     }
-    return decodedText;
 }

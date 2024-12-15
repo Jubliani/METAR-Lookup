@@ -6,18 +6,18 @@ export class WindDecoder extends Decoder {
         const matchedWinds = raw.match(/^\d{5}(\d+)?[a-zA-Z]+/);
         if (matchedWinds) { 
             this.DecodeWindStandardNotation(raw);
-            return [true, this.decodedText];
+            return true;
         }
         const matchedWindVary = raw.match(/\d{3}V\d{3}/); 
         if (matchedWindVary) { 
-            this.decodedText += `Wind direction variable between ${matchedWindVary[0].slice(0, 3)} and ${matchedWindVary[0].slice(4)} degrees. `;
-            return [true, this.decodedText];
+            Decoder.decodedText += `Wind direction variable between ${matchedWindVary[0].slice(0, 3)} and ${matchedWindVary[0].slice(4)} degrees. `;
+            return true;
         }
         if (raw.startsWith("VRB")) {
             this.DecodeWindVRB(raw.slice(3));
-            return [true, this.decodedText];
+            return true
         }
-        return [false];
+        return false;
     }
 
     IsolateWindSpeed(speedAndMore: string) {
@@ -31,33 +31,33 @@ export class WindDecoder extends Decoder {
         return { speed, rest };
     }
     
-    DecodeWindStandardNotation(raw: string) {
+    DecodeWindStandardNotation(raw: string): void {
         if (raw.startsWith("00000")) {
-            this.decodedText += "Calm winds. ";
+            Decoder.decodedText += "Calm winds. ";
             return;
         }
         const {speed, rest} = this.IsolateWindSpeed(raw.slice(3));
-        this.decodedText += `Wind ${raw.slice(0,3)} at ${speed.replace(/^0+/, '')} `
+        Decoder.decodedText += `Wind ${raw.slice(0,3)} at ${speed.replace(/^0+/, '')} `
         this.CheckForGust(rest);
     }
     
-    CheckForGust(raw: string) {
+    CheckForGust(raw: string): void {
         const [matched, matched1, matched2, matched3] = [raw.match(/G\d+KT/), raw.match(/G\d+MPS/), raw.match(/KT/), raw.match(/MPS/)]
         if (matched) {
             console.log("MATCHED IN GUST IS: ", matched, matched[0].substring(1, matched[0].length - 2));
-            this.decodedText += `gusting to ${matched[0].substring(1, matched[0].length - 2)} knots. `;
+            Decoder.decodedText += `gusting to ${matched[0].substring(1, matched[0].length - 2)} knots. `;
         } else if (matched1) {
-            this.decodedText += `gusting to ${matched1[0].substring(1, matched1[0].length - 3)} meters/sec. `;
+            Decoder.decodedText += `gusting to ${matched1[0].substring(1, matched1[0].length - 3)} meters/sec. `;
         } else if (matched2){ 
-            this.decodedText += "knots. "; 
+            Decoder.decodedText += "knots. "; 
         } else if (matched3) {
-            this.decodedText += "meters/sec. ";
+            Decoder.decodedText += "meters/sec. ";
         }
     }
     
     DecodeWindVRB(raw: string) {
         const {speed, rest} = this.IsolateWindSpeed(raw);
-        this.decodedText += `Wind variable at ${speed.replace(/^0+/, '')} `;
+        Decoder.decodedText += `Wind variable at ${speed.replace(/^0+/, '')} `;
         this.CheckForGust(rest);
     }
 }

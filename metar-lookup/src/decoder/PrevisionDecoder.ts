@@ -4,28 +4,35 @@ import { Decoder } from "./DecoderClass";
 export class PrevisionDecoder extends Decoder{
 
     Decode(raw: string) {
-        console.log("SJDFIODJFDOSIJFSDFK: ", this.decodedText)
         if (raw == "NOSIG") {
-            return [true, this.decodedText + "No significant weather change expected in the next 2 hours. "];
+            Decoder.decodedText += "No significant weather change expected in the next 2 hours. "
+            return true;
         } else if (raw == "BECMG") {
-            return [true, this.decodedText + "Conditions will gradually change to the following: "];
+            Decoder.decodedText += "Conditions will gradually change to the following: "
+            return true
         } else if (raw == "TEMPO") {
-            return [true, this.decodedText + "The following conditions will occur temporarily: "];
+            Decoder.decodedText += "The following conditions will occur temporarily: "
+            return true
         } else if (raw.startsWith("FM")) {
-            return [true, this.decodedText + `From ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))} `];
+            Decoder.decodedText += `From ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))} `
+            return true
         } else if (raw.startsWith("AT")) {
-            return [true, this.decodedText + `At ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))}: `];
+            Decoder.decodedText += `At ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))}: `
+            return true
         } else if (raw.startsWith("TL")) {
-            return [true, this.decodedText + `Until ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))}: `];
+            Decoder.decodedText += `Until ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))}: `
+            return true
         } else if (raw.startsWith("PROB")) {
-            return [true, this.decodedText + `With a probability of ${raw.slice(4)}% `];
+            Decoder.decodedText += `With a probability of ${raw.slice(4)}% `
+            return true
         }
         const matchedTimeRange = raw.match(/^\d{4}\/\d{4}/);
         if (matchedTimeRange) {
-            console.log("CURRENT TEXT IS WE MATCHED TIME RANGE: ", this.decodedText)
-            this.decodedText = DecoderUtils.RemovePossiblePreviousColon(this.decodedText)
-            return [true, this.decodedText + `From ${DecoderUtils.GetTimeRange(raw, DecoderUtils.GetMonthAsString())}: `];
+            console.log("CURRENT TEXT IS WE MATCHED TIME RANGE: ", Decoder.decodedText)
+            DecoderUtils.RemovePossiblePreviousColon()
+            Decoder.decodedText += `From ${DecoderUtils.GetTimeRange(raw, DecoderUtils.GetMonthAsString())}: `
+            return true
         }
-        return [false];
+        return false;
     }
 }

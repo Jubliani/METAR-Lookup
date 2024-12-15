@@ -6,17 +6,18 @@ export class DirectionsDecoder extends Decoder {
     Decode(raw: string) {
         const matchedDirections = raw.match(/^([NS]?[EW]?)(-[NS]?[EW]?)*$/);
         if (!matchedDirections) {
-            return [false];
+            return false;
         }
         console.log("MATCHED DIRECTIONS");
         return this.LoopThroughStringAndDecode(raw.split("-"));
     }
 
-    LoopThroughStringAndDecode(directionsArray: Array<string>) {
-        this.decodedText += "in the ";
+    LoopThroughStringAndDecode(directionsArray: Array<string>): boolean {
+        Decoder.decodedText += "in the ";
         for (const direction of directionsArray) {
-            this.decodedText += directions[direction] + "-";
+            Decoder.decodedText += directions[direction] + "-";
         }
-        return [true, this.decodedText.slice(0, -1) + ". "];
+        Decoder.decodedText = Decoder.decodedText.slice(0, -1) + ". "
+        return true
     }
 }
