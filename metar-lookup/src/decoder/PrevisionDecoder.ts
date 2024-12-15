@@ -8,10 +8,10 @@ export class PrevisionDecoder extends Decoder{
             Decoder.decodedText += "No significant weather change expected in the next 2 hours. "
             return true;
         } else if (raw == "BECMG") {
-            Decoder.decodedText += "Conditions will gradually change to the following: "
+            this.CheckForPercentage("c", "C", "onditions will gradually change to the following: ")
             return true
         } else if (raw == "TEMPO") {
-            Decoder.decodedText += "The following conditions will occur temporarily: "
+            this.CheckForPercentage("t", "T", "he following conditions will occur temporarily: ")
             return true
         } else if (raw.startsWith("FM")) {
             Decoder.decodedText += `From ${DecoderUtils.DecodeSixDigitsToDate(raw.slice(2))} `
@@ -29,9 +29,17 @@ export class PrevisionDecoder extends Decoder{
         const matchedTimeRange = raw.match(/^\d{4}\/\d{4}/);
         if (matchedTimeRange) {
             DecoderUtils.RemovePossiblePreviousColon()
-            Decoder.decodedText += `From ${DecoderUtils.GetTimeRange(raw, DecoderUtils.GetMonthAsString())}: `
+            Decoder.decodedText += `from ${DecoderUtils.GetTimeRange(raw, DecoderUtils.GetMonthAsString())}: `
             return true
         }
         return false;
+    }
+
+    CheckForPercentage(lowercaseFirstLetter: string, uppercaseFirstLetter: string, textToAppend: string): void {
+        if (Decoder.decodedText.endsWith("% ")) {
+            Decoder.decodedText += lowercaseFirstLetter + textToAppend;
+            return;
+        }
+        Decoder.decodedText += uppercaseFirstLetter + textToAppend;
     }
 }
