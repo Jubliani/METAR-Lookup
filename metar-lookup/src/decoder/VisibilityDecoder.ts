@@ -76,7 +76,7 @@ export class VisibilityDecoder extends Decoder {
     RecVisModifiers(raw: string, inVicinity: string): boolean {
         if (raw.length == 0) {
             this.ChangeShowersIfNeeded();
-            Decoder.decodedText += Decoder.decodedText.slice(0, -1) + inVicinity + ". ";
+            Decoder.decodedText = Decoder.decodedText.slice(0, -1) + inVicinity + ". ";
             return true
         }
         switch (raw.slice(0, 2)) {
