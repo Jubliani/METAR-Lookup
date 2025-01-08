@@ -6,7 +6,7 @@ Weather data is pulled from the Aviation Weather Center data API.
 Simply enter in the 4 letter ICAO code of any airport to look up its METAR report.<br>
 The extension gives the option to include a TAF report and to decode reports into plain English.
 <b><p>
-NOTE: decodings may not fully translate reports. METAR/TAF reports can include a huge variety of info. Right now the goal is to be able to decode around ~80% of content.
+NOTE: decodings may not fully translate reports. METAR/TAF reports can include a huge variety of info and edge cases. Right now around ~90-95% of content is correctly decoded.
 </p></b>
 
 ## Installation
