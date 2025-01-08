@@ -6,5 +6,6 @@ export const words: { [key: string]: string } = {
     "AND": "and ",
     "DSNT": "distant ",
     "NSW": "No significant weather. ",
-    "RMK": "\n\nRemarks: \n"
+    "RMK": "\n\nRemarks: \n",
+    "PLUMES": "plumes "
 };
